@@ -1,7 +1,5 @@
 import org.jibble.pircbot.PircBot
 import actions._
-import response.Error
-import response.Success
 import response.{Error, Success, Response}
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -12,11 +10,14 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   val ruby = new RubyAction
   val js = new JsAction
   val python = new PythonAction
+  val link = new LinkAction
   val google = new GoogleAction
 
   val rubyPattern = makePattern("rb")
   val jsPattern = makePattern("js")
   val pythonPattern = makePattern("py")
+  val httpPattern = """^http://.*""".r
+  val httpsPattern = """^https://.*""".r
   val googlePattern = makePattern("google")
 
   setName(nickName)
@@ -34,7 +35,9 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     case jsPattern(msg)     => evaluate(js, msg, channel)
     case pythonPattern(msg) => evaluate(python, msg, channel)
     case googlePattern(msg) => evaluate(google, msg, channel)
-    case _                  => // Message doesn't match our prefix, ignore.
+    case httpsPattern()     => evaluate(link, message, channel)
+    case httpPattern()      => evaluate(link, message, channel)
+    case _                  => println("No match")
   }
 
   private def evaluate(action: Action, message: String, channel: String) =

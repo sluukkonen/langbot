@@ -17,8 +17,8 @@ class GoogleAction extends Action {
     response map parseResult
   }
 
-  private def parseResult(response: String) = {
-    val doc = Jsoup.parse(response)
+  private def parseResult(html: String) = {
+    val doc = Jsoup.parse(html)
     val firstResult = doc.select("#ires ol li h3 a").first
     val text = firstResult.text
     val url = firstResult.attr("href")
