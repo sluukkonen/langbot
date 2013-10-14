@@ -16,7 +16,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
 
   val rubyPattern = makePattern("rb")
   val jsPattern = makePattern("js")
-  val pythonPattern = makePattern("python")
+  val pythonPattern = makePattern("py")
   val googlePattern = makePattern("google")
 
   setName(nickName)
