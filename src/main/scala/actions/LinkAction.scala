@@ -1,6 +1,6 @@
 package actions
 
-import response.{Success, Response}
+import response.{NoResponse, Success, Response}
 import dispatch._, Defaults._
 import org.jsoup.Jsoup
 
@@ -16,10 +16,10 @@ class LinkAction extends Action {
     response map parseTitle
   }
 
-  def parseTitle(html: String) = {
+  def parseTitle(html: String): Response = {
     val doc = Jsoup.parse(html)
     val title = Option(doc.select("title").first)
-    title map (t => Success(t.text.trim)) getOrElse(Success(""))
+    title map (t => Success(t.text.trim)) getOrElse NoResponse
   }
 
 }

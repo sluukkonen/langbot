@@ -1,6 +1,6 @@
 import org.jibble.pircbot.PircBot
 import actions._
-import response.{Error, Success, Response}
+import response.{NoResponse, Error, Success, Response}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class LangBot(nickName: String, server: String, channels: Seq[String]) extends PircBot {
@@ -49,10 +49,11 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
       sendFilteredResponse(channel, s"=> $result")
     case Error(message)          =>
       sendFilteredResponse(channel, message)
+    case NoResponse => // Pass
   }
 
   private def sendFilteredResponse(channel: String, response: String) =
     filterResponse(response) foreach (sendMessage(channel, _))
 
-  private def filterResponse(response: String) = response.split("\n") filter (!_.isEmpty) take 5
+  private def filterResponse(response: String) = response.split("\n") filterNot (_.isEmpty) take 5
 }
