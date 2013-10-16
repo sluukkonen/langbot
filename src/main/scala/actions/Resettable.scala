@@ -1,6 +1,6 @@
 package actions
 
-import java.io.{ByteArrayOutputStream, PrintStream}
+import java.io.ByteArrayOutputStream
 
 
 trait Resettable[T] {
@@ -16,8 +16,4 @@ trait Resettable[T] {
       byteArrayOutputStream.reset
     }
   }
-}
-
-object Resettable {
-  val mutex = new Object
 }
