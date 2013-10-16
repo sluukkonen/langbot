@@ -25,7 +25,7 @@ class LinkActionSpec extends FlatSpec with ShouldMatchers {
   }
 
   it should "return nothing if the content isn't HTML" in {
-    evaluate("http://i.imgur.com/HXqgR9M.gif") should be(NoResponse)
+    evaluate("http://i.imgur.com/sXVYDuCh.jpg") should be(NoResponse)
   }
 
   private def evaluate(message: String): Response = Await.result(link.evaluate(message), 10.seconds)
