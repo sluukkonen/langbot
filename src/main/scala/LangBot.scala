@@ -7,9 +7,9 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
 
   def makePattern(prefix: String) = ("""^\.""" + prefix + """\s(.*)""").r
 
-  val ruby = new RubyAction
-  val js = new JsAction
-  val python = new PythonAction
+  var ruby = new RubyAction
+  var js = new JsAction
+  var python = new PythonAction
   val link = new LinkAction
   val google = new GoogleAction
 
@@ -19,6 +19,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   val httpPattern = """^http://.*""".r
   val httpsPattern = """^https://.*""".r
   val googlePattern = makePattern("google")
+  val resetPattern = """^\.reset.*""".r
 
   setName(nickName)
   setVerbose(true)
@@ -37,6 +38,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     case googlePattern(msg) => evaluate(google, msg, channel)
     case httpsPattern()     => evaluate(link, message, channel)
     case httpPattern()      => evaluate(link, message, channel)
+    case resetPattern()     => reset; sendMessage(channel, "=> Ready!")
     case _                  => println("No match")
   }
 
@@ -56,4 +58,11 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     filterResponse(response) foreach (sendMessage(channel, _))
 
   private def filterResponse(response: String) = response.split("\n") filterNot (_.isEmpty) take 5
+
+  private def reset = {
+    ruby = new RubyAction
+    js = new JsAction
+    python = new PythonAction
+  }
+
 }

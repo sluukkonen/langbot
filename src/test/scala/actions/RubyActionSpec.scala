@@ -20,10 +20,9 @@ class RubyActionSpec extends FlatSpec with ShouldMatchers {
     result should be(Success("nil", "lol"))
   }
 
-  it should "not keep state between invocations" in {
+  it should "keep state between invocations" in {
     evaluate("a = 1")
-    val result = evaluate("a")
-    result should be(Error("(NameError) undefined local variable or method `a' for main:Object"))
+    evaluate("a") should be(Success("1"))
   }
 
   private def evaluate(message: String): Response = Await.result(ruby.evaluate(message), 10.seconds)

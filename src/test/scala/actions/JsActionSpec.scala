@@ -20,10 +20,9 @@ class JsActionSpec extends FlatSpec with ShouldMatchers {
     result should be(Success("undefined", "lol\n"))
   }
 
-  it should "not keep state between invocations" in {
+  it should "keep state between invocations" in {
     evaluate("a = 1")
-    val result = evaluate("a")
-    result should be(Error("ReferenceError: \"a\" is not defined. (unknown#1)"))
+    evaluate("a") should be(Success("1"))
   }
 
   private def evaluate(message: String): Response = Await.result(js.evaluate(message), 10.seconds)
