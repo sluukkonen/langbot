@@ -12,10 +12,12 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   var python = new PythonAction
   val link = new LinkAction
   val google = new GoogleAction
+  val clojure = new ClojureAction
 
   val rubyPattern = makePattern("rb")
   val jsPattern = makePattern("js")
   val pythonPattern = makePattern("py")
+  val clojurePattern = makePattern("clj")
   val httpPattern = """^http://.*""".r
   val httpsPattern = """^https://.*""".r
   val googlePattern = makePattern("google")
@@ -32,14 +34,15 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
 
   override def onMessage(channel: String, sender: String, login: String, host: String,
                          message: String) = message match {
-    case rubyPattern(msg)   => evaluate(ruby, msg, channel)
-    case jsPattern(msg)     => evaluate(js, msg, channel)
-    case pythonPattern(msg) => evaluate(python, msg, channel)
-    case googlePattern(msg) => evaluate(google, msg, channel)
-    case httpsPattern()     => evaluate(link, message, channel)
-    case httpPattern()      => evaluate(link, message, channel)
-    case resetPattern()     => reset; sendMessage(channel, "=> Ready!")
-    case _                  => println("No match")
+    case rubyPattern(msg)    => evaluate(ruby, msg, channel)
+    case jsPattern(msg)      => evaluate(js, msg, channel)
+    case pythonPattern(msg)  => evaluate(python, msg, channel)
+    case clojurePattern(msg) => evaluate(clojure, msg, channel)
+    case googlePattern(msg)  => evaluate(google, msg, channel)
+    case httpsPattern()      => evaluate(link, message, channel)
+    case httpPattern()       => evaluate(link, message, channel)
+    case resetPattern()      => reset; sendMessage(channel, "=> Ready!")
+    case _                   => println("No match")
   }
 
   private def evaluate(action: Action, message: String, channel: String) =
@@ -51,7 +54,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
       sendFilteredResponse(channel, s"=> $result")
     case Error(message)          =>
       sendFilteredResponse(channel, message)
-    case NoResponse => // Pass
+    case NoResponse              => // Pass
   }
 
   private def sendFilteredResponse(channel: String, response: String) =

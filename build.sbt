@@ -9,6 +9,7 @@ libraryDependencies ++= Seq(
   "org.jruby" % "jruby-complete" % "1.7.5",
   "org.mozilla" % "rhino" % "1.7R4",
   "org.python" % "jython" % "2.5.3",
+  "org.clojure" % "clojure" % "1.5.1",
   "com.typesafe" % "config" % "1.0.2",
   "net.databinder.dispatch" %% "dispatch-core" % "0.11.0",
   "org.jsoup" % "jsoup" % "1.7.2",
