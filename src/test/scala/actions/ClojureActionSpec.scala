@@ -24,5 +24,9 @@ class ClojureActionSpec extends FlatSpec with ShouldMatchers {
     evaluate("a") should be(Success("1"))
   }
 
+  it should "evaluate stuff in the user namespace" in {
+    evaluate("(defn b [] 1)") should be(Success("#'user/b"))
+  }
+
   private def evaluate(message: String): Response = Await.result(clojure.evaluate(message), 10.seconds)
 }

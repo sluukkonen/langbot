@@ -12,8 +12,10 @@ class ClojureAction extends Action with Resettable[Response] {
   val writer = new PrintWriter(outputStream)
 
   val out = RT.`var`("clojure.core", "*out*")
+  val ns = RT.`var`("clojure.core", "*ns*")
+  val userNs = Namespace.findOrCreate(Symbol.create("user"))
 
-  val bindings = PersistentHashMap.create(out, writer)
+  val bindings = PersistentHashMap.create(out, writer, ns, userNs)
 
   def evaluate(message: String): Future[Response] = future {
     blocking {
