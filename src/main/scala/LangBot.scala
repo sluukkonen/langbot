@@ -10,17 +10,19 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   var ruby = new RubyAction
   var js = new JsAction
   var python = new PythonAction
-  val link = new LinkAction
-  val google = new GoogleAction
   val clojure = new ClojureAction
+  val brainfuck = new BrainFuckAction
+  val google = new GoogleAction
+  val link = new LinkAction
 
   val rubyPattern = makePattern("rb")
   val jsPattern = makePattern("js")
   val pythonPattern = makePattern("py")
   val clojurePattern = makePattern("clj")
+  val brainfuckPattern = makePattern("bf")
+  val googlePattern = makePattern("google")
   val httpPattern = """^http://.*""".r
   val httpsPattern = """^https://.*""".r
-  val googlePattern = makePattern("google")
   val resetPattern = """^\.reset.*""".r
 
   setName(nickName)
@@ -34,15 +36,16 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
 
   override def onMessage(channel: String, sender: String, login: String, host: String,
                          message: String) = message match {
-    case rubyPattern(msg)    => evaluate(ruby, msg, channel)
-    case jsPattern(msg)      => evaluate(js, msg, channel)
-    case pythonPattern(msg)  => evaluate(python, msg, channel)
-    case clojurePattern(msg) => evaluate(clojure, msg, channel)
-    case googlePattern(msg)  => evaluate(google, msg, channel)
-    case httpsPattern()      => evaluate(link, message, channel)
-    case httpPattern()       => evaluate(link, message, channel)
-    case resetPattern()      => reset; sendMessage(channel, "=> Ready!")
-    case _                   => println("No match")
+    case rubyPattern(msg)      => evaluate(ruby, msg, channel)
+    case jsPattern(msg)        => evaluate(js, msg, channel)
+    case pythonPattern(msg)    => evaluate(python, msg, channel)
+    case clojurePattern(msg)   => evaluate(clojure, msg, channel)
+    case brainfuckPattern(msg) => evaluate(brainfuck, msg, channel)
+    case googlePattern(msg)    => evaluate(google, msg, channel)
+    case httpsPattern()        => evaluate(link, message, channel)
+    case httpPattern()         => evaluate(link, message, channel)
+    case resetPattern()        => reset; sendMessage(channel, "=> Ready!")
+    case _                     => println("No match")
   }
 
   private def evaluate(action: Action, message: String, channel: String) =

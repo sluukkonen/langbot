@@ -8,6 +8,7 @@ A small IRC bot for (mainly) running code in various programming languages. Writ
 * `.py ...`  run Python code (via Jython)
 * `.js ...`  run JavaScript code (via Rhino)
 * `.clj ...` run Clojure code
+* `.bf ...`  run Brainfuck code
 * `.reset`   reset the language interpreters
 
 ## Running it
