@@ -10,7 +10,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   var ruby = new RubyAction
   var js = new JsAction
   var python = new PythonAction
-  val clojure = new ClojureAction
+  var clojure = new ClojureAction
   val brainfuck = new BrainFuckAction
   val google = new GoogleAction
   val link = new LinkAction
@@ -52,9 +52,9 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     case clojurePattern(msg)   => evaluate(clojure, msg, channel)
     case brainfuckPattern(msg) => evaluate(brainfuck, msg, channel)
     case googlePattern(msg)    => evaluate(google, msg, channel)
+    case resetPattern()        => reset(); sendMessage(channel, "=> Ready!")
     case httpsPattern()        => evaluate(link, message, channel)
     case httpPattern()         => evaluate(link, message, channel)
-    case resetPattern()        => reset; sendMessage(channel, "=> Ready!")
     case _                     => println("No match")
   }
 
@@ -75,10 +75,11 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
 
   private def filterResponse(response: String) = response.split("\n") filterNot (_.isEmpty) take 5
 
-  private def reset = {
+  private def reset(): Unit = {
     ruby = new RubyAction
     js = new JsAction
     python = new PythonAction
+    clojure = new ClojureAction
   }
 
 }
