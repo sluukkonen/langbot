@@ -34,6 +34,16 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     channels foreach joinChannel
   }
 
+  override def onDisconnect(): Unit = while (true) {
+    try {
+      connect()
+      return
+    } catch {
+      case e: Exception =>
+        Thread.sleep(30000)
+    }
+  }
+
   override def onMessage(channel: String, sender: String, login: String, host: String,
                          message: String) = message match {
     case rubyPattern(msg)      => evaluate(ruby, msg, channel)
