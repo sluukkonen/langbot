@@ -3,7 +3,7 @@ package actions
 import org.jruby.{Ruby, RubyInstanceConfig}
 import scala.concurrent._
 import java.io.{PrintStream, ByteArrayOutputStream}
-import response.{Response, Error, Success}
+import response.{Response, ErrorResponse, SuccessResponse}
 import scala.concurrent.ExecutionContext.Implicits._
 import org.jruby.runtime.scope.ManyVarsDynamicScope
 
@@ -27,9 +27,9 @@ class RubyAction extends Action with Resettable[Response] {
       blocking {
         try {
           val (result, output) = resetting(outputStream)(ruby.evalScriptlet(message, scope))
-          Success(result.inspect.toString, output)
+          SuccessResponse(result.inspect.toString, output)
         } catch {
-          case e: Exception => Error(e.getMessage)
+          case e: Exception => ErrorResponse(e.getMessage)
         }
 
       }

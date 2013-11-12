@@ -2,7 +2,7 @@ package actions
 
 import clojure.lang._
 import scala.concurrent._
-import response.{Error, Success, Response}
+import response.{ErrorResponse, SuccessResponse, Response}
 import java.io.{PrintWriter, ByteArrayOutputStream}
 import scala.concurrent.ExecutionContext.Implicits._
 
@@ -24,9 +24,9 @@ class ClojureAction extends Action with Resettable[Response] {
         val (result, output) = resettingAndFlushing(outputStream, writer) {
           RT.printString(Compiler.eval(RT.readString(message)))
         }
-        Success(result, output)
+        SuccessResponse(result, output)
       } catch {
-        case e: Exception => Error(e.getMessage)
+        case e: Exception => ErrorResponse(e.getMessage)
       } finally {
         Var.popThreadBindings()
       }

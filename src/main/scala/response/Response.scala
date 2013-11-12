@@ -2,6 +2,6 @@ package response
 
 sealed trait Response
 
-case class Success(result: String, output: String = "") extends Response
-case class Error(message: String) extends Response
+case class SuccessResponse(result: String, output: String = "") extends Response
+case class ErrorResponse(message: String) extends Response
 object NoResponse extends Response

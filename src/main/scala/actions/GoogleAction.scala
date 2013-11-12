@@ -2,7 +2,7 @@ package actions
 
 import dispatch._, Defaults._
 import org.jsoup.Jsoup
-import response.Success
+import response.SuccessResponse
 
 class GoogleAction extends Action {
 
@@ -22,7 +22,7 @@ class GoogleAction extends Action {
     val firstResult = doc.select("#ires ol li h3 a").first
     val text = firstResult.text
     val url = firstResult.attr("href")
-    Success(s"$text ($url)")
+    SuccessResponse(s"$text ($url)")
   }
 
 }

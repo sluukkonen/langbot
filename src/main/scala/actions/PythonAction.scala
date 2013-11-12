@@ -1,6 +1,6 @@
 package actions
 
-import response.{Response, Error, Success}
+import response.{Response, ErrorResponse, SuccessResponse}
 import scala.concurrent._
 import org.python.util.PythonInterpreter
 import java.io.{PrintStream, ByteArrayOutputStream}
@@ -21,9 +21,9 @@ class PythonAction extends Action with Resettable[Response] {
       blocking {
         try {
           val (result, output) = resetting(outputStream)(python.eval(python.compile(message)))
-          Success(result.toString, output)
+          SuccessResponse(result.toString, output)
         } catch {
-          case e: Exception => Error(e.toString)
+          case e: Exception => ErrorResponse(e.toString)
         }
       }
     }

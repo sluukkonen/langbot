@@ -4,7 +4,7 @@ import scala.concurrent._
 import org.mozilla.javascript._
 import org.mozilla.javascript.tools.shell.Global
 import java.io.{PrintStream, ByteArrayOutputStream}
-import response.{Response, Error, Success}
+import response.{Response, ErrorResponse, SuccessResponse}
 import scala.concurrent.ExecutionContext.Implicits._
 
 class JsAction extends Action with Resettable[Response] {
@@ -25,9 +25,9 @@ class JsAction extends Action with Resettable[Response] {
         Context.enter()
         try {
           val (result, output) = resetting(outputStream)(ctx.evaluateString(scope, message, "unknown", 1, null))
-          Success(Context.toString(result), output)
+          SuccessResponse(Context.toString(result), output)
         } catch {
-          case e: Exception => Error(e.getMessage)
+          case e: Exception => ErrorResponse(e.getMessage)
         } finally {
           Context.exit()
         }
