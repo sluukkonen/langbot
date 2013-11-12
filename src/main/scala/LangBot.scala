@@ -21,8 +21,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   val clojurePattern = makePattern("clj")
   val brainfuckPattern = makePattern("bf")
   val googlePattern = makePattern("google")
-  val httpPattern = """^http://.*""".r
-  val httpsPattern = """^https://.*""".r
+  val linkPattern = """\b(https?://[^ ]*)""".r.unanchored
   val resetPattern = """^\.reset.*""".r
 
   setName(nickName)
@@ -52,9 +51,8 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     case clojurePattern(msg)   => evaluate(clojure, msg, channel)
     case brainfuckPattern(msg) => evaluate(brainfuck, msg, channel)
     case googlePattern(msg)    => evaluate(google, msg, channel)
+    case linkPattern(url)      => evaluate(link, url, channel)
     case resetPattern()        => reset(); sendMessage(channel, "=> Ready!")
-    case httpsPattern()        => evaluate(link, message, channel)
-    case httpPattern()         => evaluate(link, message, channel)
     case _                     => println("No match")
   }
 
