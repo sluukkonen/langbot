@@ -62,7 +62,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   private def sendResponse(channel: String, response: Response) = response match {
     case SuccessResponse(result, output) =>
       sendFilteredResponse(channel, output)
-      sendFilteredResponse(channel, s"=> $result")
+        sendFilteredResponse(channel, s"⇒ $result")
     case ErrorResponse(message)          =>
       sendFilteredResponse(channel, message)
     case NoResponse                      => // Pass
