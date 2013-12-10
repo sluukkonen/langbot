@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element
 
 class LinkAction extends Action {
 
-
   def evaluate(message: String) = {
     val request = url(message).addHeader(
       "User-Agent",
@@ -23,6 +22,6 @@ class LinkAction extends Action {
     title map text getOrElse NoResponse
   }
 
-  private def text(e: Element) = SuccessResponse(e.text.trim)
+  private def text(e: Element) = SuccessResponse(e.text.replaceAll("\n\\s*", " ").trim)
 
 }
