@@ -31,7 +31,6 @@ class RubyAction extends Action with Resettable[Response] {
         } catch {
           case e: Exception => ErrorResponse(e.getMessage)
         }
-
       }
     }
   }
