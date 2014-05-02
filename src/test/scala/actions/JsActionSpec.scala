@@ -17,7 +17,7 @@ class JsActionSpec extends FlatSpec with ShouldMatchers {
 
   it should "should redirect standard output to the response" in {
     val result = evaluate("print('lol')")
-    result should be(SuccessResponse("undefined", "lol\n"))
+    result should be(SuccessResponse("undefined", s"lol${System.lineSeparator}"))
   }
 
   it should "keep state between invocations" in {

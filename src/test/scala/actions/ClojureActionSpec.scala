@@ -16,7 +16,7 @@ class ClojureActionSpec extends FlatSpec with ShouldMatchers {
 
   it should "redirect standard output to the response" in {
     val result = evaluate("(println \"lol\")")
-    result should be(SuccessResponse("nil", "lol\n"))
+    result should be(SuccessResponse("nil", s"lol${System.lineSeparator}"))
   }
 
   it should "keep state between invocations" in {

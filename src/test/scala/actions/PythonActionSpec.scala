@@ -17,7 +17,8 @@ class PythonActionSpec extends FlatSpec with ShouldMatchers {
 
   it should "redirect standard output to the response" in {
     val result = evaluate("for i in [1,2,3]: print i")
-    result should be(SuccessResponse("None", "1\n2\n3\n"))
+    val lineSeparator = System.lineSeparator
+    result should be(SuccessResponse("None", s"1${lineSeparator}2${lineSeparator}3${lineSeparator}"))
   }
 
   it should "keep state between invocations" in {
