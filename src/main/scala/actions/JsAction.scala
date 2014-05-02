@@ -1,37 +1,37 @@
 package actions
 
 import scala.concurrent._
-import org.mozilla.javascript._
-import org.mozilla.javascript.tools.shell.Global
-import java.io.{PrintStream, ByteArrayOutputStream}
+import java.io.{PrintWriter, ByteArrayOutputStream}
 import response.{Response, ErrorResponse, SuccessResponse}
 import scala.concurrent.ExecutionContext.Implicits._
+import javax.script.ScriptEngineManager
 
 class JsAction extends Action with Resettable[Response] {
 
+  private val scriptEngineManager = new ScriptEngineManager()
+  private val engine = scriptEngineManager.getEngineByName("nashorn")
+
+  val bindings = engine.createBindings
+
   val outputStream = new ByteArrayOutputStream
-  val printStream = new PrintStream(outputStream)
+  val writer = new PrintWriter(outputStream)
 
-  val ctx = Context.enter
-  val scope = new Global(ctx)
-
-  scope.setOut(printStream)
-  scope.setErr(printStream)
+  engine.getContext.setWriter(writer)
+  engine.getContext.setErrorWriter(writer)
 
 
   override def evaluate(message: String) = {
     future {
       blocking {
-        Context.enter()
         try {
-          val (result, output) = resetting(outputStream)(ctx.evaluateString(scope, message, "unknown", 1, null))
-          SuccessResponse(Context.toString(result), output)
+          val (result, output) = resettingAndFlushing(outputStream, writer)(engine.eval(message))
+          SuccessResponse(toStringOrUndefined(result), output)
         } catch {
           case e: Exception => ErrorResponse(e.getMessage)
-        } finally {
-          Context.exit()
         }
       }
     }
   }
+
+  private def toStringOrUndefined(result: AnyRef): String = Option(result).map(_.toString).getOrElse("undefined")
 }
