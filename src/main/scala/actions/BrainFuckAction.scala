@@ -6,7 +6,7 @@ import response.{ErrorResponse, SuccessResponse, Response}
 
 class BrainFuckAction extends Action {
 
-  def evaluate(program: String): Future[Response] = future {
+  def evaluate(program: String): Future[Response] = Future {
 
     val tape = new Array[Int](30000)
     var ip = 0
@@ -16,14 +16,14 @@ class BrainFuckAction extends Action {
     try {
       while (ip < program.length) {
         program.charAt(ip) match {
-          case '>'                    => dp += 1
-          case '<'                    => dp -= 1
-          case '+'                    => tape(dp) += 1
-          case '-'                    => tape(dp) -= 1
-          case '.'                    => output.append(tape(dp).asInstanceOf[Char])
+          case '>' => dp += 1
+          case '<' => dp -= 1
+          case '+' => tape(dp) += 1
+          case '-' => tape(dp) -= 1
+          case '.' => output.append(tape(dp).asInstanceOf[Char])
           case '[' if tape(dp) == 0 => ip = jumpForward(program, ip + 1, 1)
           case ']' if tape(dp) != 0 => ip = jumpBackward(program, ip - 1, 1)
-          case _                      =>
+          case _ =>
         }
         ip += 1
       }
@@ -31,7 +31,7 @@ class BrainFuckAction extends Action {
       case e: Exception => ErrorResponse(e.getMessage)
     }
 
-    SuccessResponse(output.toString)
+    SuccessResponse(output.mkString)
   }
 
   def jumpForward(program: String, ip: Int, depth: Int): Int = {
@@ -41,7 +41,7 @@ class BrainFuckAction extends Action {
       program.charAt(ip) match {
         case '[' => jumpForward(program, ip + 1, depth + 1)
         case ']' => jumpForward(program, ip + 1, depth - 1)
-        case _   => jumpForward(program, ip + 1, depth)
+        case _ => jumpForward(program, ip + 1, depth)
       }
     }
   }
@@ -53,7 +53,7 @@ class BrainFuckAction extends Action {
       program.charAt(ip) match {
         case '[' => jumpBackward(program, ip - 1, depth - 1)
         case ']' => jumpBackward(program, ip - 1, depth + 1)
-        case _   => jumpBackward(program, ip - 1, depth)
+        case _ => jumpBackward(program, ip - 1, depth)
       }
     }
   }

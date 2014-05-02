@@ -3,7 +3,7 @@ package actions
 import java.io.{Writer, ByteArrayOutputStream}
 
 
-trait Resettable[T] {
+trait Resettable {
 
   def resetting[T](byteArrayOutputStream: ByteArrayOutputStream)(fn: => T): (T, String) = synchronized {
     try {

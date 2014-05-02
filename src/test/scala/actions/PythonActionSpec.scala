@@ -1,12 +1,12 @@
 package actions
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.{BePropertyMatcher, ShouldMatchers}
-import response.{Response, ErrorResponse, SuccessResponse}
+import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.matchers.ShouldMatchers
+import response.{Response, SuccessResponse}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class PythonActionSpec extends FlatSpec with ShouldMatchers {
+class PythonActionSpec extends FlatSpec with Matchers {
 
   val python = new PythonAction
 

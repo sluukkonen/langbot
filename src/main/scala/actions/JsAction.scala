@@ -2,13 +2,13 @@ package actions
 
 import scala.concurrent._
 import java.io.{PrintWriter, ByteArrayOutputStream}
-import response.{Response, ErrorResponse, SuccessResponse}
+import response.{ErrorResponse, SuccessResponse}
 import scala.concurrent.ExecutionContext.Implicits._
 import javax.script.ScriptEngineManager
 
-class JsAction extends Action with Resettable[Response] {
+class JsAction extends Action with Resettable {
 
-  private val engine = new ScriptEngineManager().getEngineByName("nashorn")
+  private val engine = new ScriptEngineManager(null).getEngineByName("nashorn")
 
   private val outputStream = new ByteArrayOutputStream
   private val writer = new PrintWriter(outputStream)
@@ -17,7 +17,7 @@ class JsAction extends Action with Resettable[Response] {
   engine.getContext.setErrorWriter(writer)
 
   override def evaluate(message: String) = {
-    future {
+    Future {
       blocking {
         try {
           val (result, output) = resettingAndFlushing(outputStream, writer)(engine.eval(message))
@@ -29,5 +29,5 @@ class JsAction extends Action with Resettable[Response] {
     }
   }
 
-  private def toStringOrUndefined(result: AnyRef): String = Option(result).map(_.toString).getOrElse("undefined")
+  private def toStringOrUndefined(result: AnyRef): String = Option(result).fold("undefined")(_.toString)
 }

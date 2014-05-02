@@ -1,12 +1,11 @@
 package actions
 
-import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.FlatSpec
+import org.scalatest.{Matchers, FlatSpec}
 import response.{SuccessResponse, Response}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class ClojureActionSpec extends FlatSpec with ShouldMatchers {
+class ClojureActionSpec extends FlatSpec with Matchers {
   val clojure = new ClojureAction
 
   "A ClojureAction" should "evaluate Clojure" in {

@@ -3,11 +3,11 @@ package actions
 import org.jruby.{Ruby, RubyInstanceConfig}
 import scala.concurrent._
 import java.io.{PrintStream, ByteArrayOutputStream}
-import response.{Response, ErrorResponse, SuccessResponse}
+import response.{ErrorResponse, SuccessResponse}
 import scala.concurrent.ExecutionContext.Implicits._
 import org.jruby.runtime.scope.ManyVarsDynamicScope
 
-class RubyAction extends Action with Resettable[Response] {
+class RubyAction extends Action with Resettable {
 
   val outputStream = new ByteArrayOutputStream
   val printStream = new PrintStream(outputStream)
@@ -23,7 +23,7 @@ class RubyAction extends Action with Resettable[Response] {
     ruby.getCurrentContext.getCurrentScope.getStaticScope), ruby.getCurrentContext.getCurrentScope)
 
   override def evaluate(message: String) = {
-    future {
+    Future {
       blocking {
         try {
           val (result, output) = resetting(outputStream)(ruby.evalScriptlet(message, scope))

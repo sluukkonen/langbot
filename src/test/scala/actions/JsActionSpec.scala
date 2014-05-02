@@ -3,10 +3,9 @@ package actions
 import org.scalatest._
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import org.scalatest.matchers.ShouldMatchers
 import response.{Response, SuccessResponse}
 
-class JsActionSpec extends FlatSpec with ShouldMatchers {
+class JsActionSpec extends FlatSpec with Matchers {
 
   val js = new JsAction
 

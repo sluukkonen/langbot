@@ -3,10 +3,9 @@ package actions
 import org.scalatest._
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import org.scalatest.matchers.ShouldMatchers
-import response.{Response, ErrorResponse, SuccessResponse}
+import response.{Response, SuccessResponse}
 
-class RubyActionSpec extends FlatSpec with ShouldMatchers {
+class RubyActionSpec extends FlatSpec with Matchers {
 
   val ruby = new RubyAction
 

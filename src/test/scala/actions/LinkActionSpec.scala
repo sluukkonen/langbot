@@ -2,12 +2,11 @@ package actions
 
 import scala.concurrent._
 import scala.concurrent.duration._
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{Matchers, FlatSpec}
 import response.{NoResponse, Response, SuccessResponse}
 
 
-class LinkActionSpec extends FlatSpec with ShouldMatchers {
+class LinkActionSpec extends FlatSpec with Matchers {
 
   val link = new LinkAction
 

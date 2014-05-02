@@ -1,12 +1,11 @@
 package actions
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{Matchers, FlatSpec}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import response.SuccessResponse
 
-class BrainFuckActionSpec extends FlatSpec with ShouldMatchers {
+class BrainFuckActionSpec extends FlatSpec with Matchers {
   val brainfuck = new BrainFuckAction
 
 

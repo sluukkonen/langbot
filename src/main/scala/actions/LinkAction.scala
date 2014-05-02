@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element
 
 class LinkAction extends Action {
 
-  def evaluate(message: String) = {
+  def evaluate(message: String): Future[Response] = {
     val request = url(message).addHeader(
       "User-Agent",
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:22.0) Gecko/20100101 Firefox/22.0"
