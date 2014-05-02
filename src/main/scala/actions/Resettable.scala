@@ -10,7 +10,7 @@ trait Resettable[T] {
       val result = fn
       (result, byteArrayOutputStream.toString)
     } finally {
-      byteArrayOutputStream.reset
+      byteArrayOutputStream.reset()
     }
   }
 
@@ -18,10 +18,10 @@ trait Resettable[T] {
                               writer: Writer)(fn: => T): (T, String) = synchronized {
     try {
       val result = fn
-      writer.flush
+      writer.flush()
       (result, byteArrayOutputStream.toString)
     } finally {
-      byteArrayOutputStream.reset
+      byteArrayOutputStream.reset()
     }
   }
 
