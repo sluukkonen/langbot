@@ -8,17 +8,13 @@ import javax.script.ScriptEngineManager
 
 class JsAction extends Action with Resettable[Response] {
 
-  private val scriptEngineManager = new ScriptEngineManager()
-  private val engine = scriptEngineManager.getEngineByName("nashorn")
+  private val engine = new ScriptEngineManager().getEngineByName("nashorn")
 
-  val bindings = engine.createBindings
-
-  val outputStream = new ByteArrayOutputStream
-  val writer = new PrintWriter(outputStream)
+  private val outputStream = new ByteArrayOutputStream
+  private val writer = new PrintWriter(outputStream)
 
   engine.getContext.setWriter(writer)
   engine.getContext.setErrorWriter(writer)
-
 
   override def evaluate(message: String) = {
     future {
