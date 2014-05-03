@@ -1,12 +1,11 @@
 package actions
 
 import org.scalatest.{Matchers, FlatSpec}
-import response.{SuccessResponse, Response}
-import scala.concurrent.Await
-import scala.concurrent.duration._
+import response.SuccessResponse
 
-class ClojureActionSpec extends FlatSpec with Matchers {
-  val clojure = new ClojureAction
+class ClojureActionSpec extends FlatSpec with Matchers with Evaluatable {
+
+  val action = new ClojureAction
 
   "A ClojureAction" should "evaluate Clojure" in {
     val result = evaluate("(+ 1 1)")
@@ -27,5 +26,4 @@ class ClojureActionSpec extends FlatSpec with Matchers {
     evaluate("(defn b [] 1)") should be(SuccessResponse("#'user/b"))
   }
 
-  private def evaluate(message: String): Response = Await.result(clojure.evaluate(message), 10.seconds)
 }

@@ -1,13 +1,11 @@
 package actions
 
 import org.scalatest._
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import response.{Response, SuccessResponse}
+import response.SuccessResponse
 
-class RubyActionSpec extends FlatSpec with Matchers {
+class RubyActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val ruby = new RubyAction
+  val action = new RubyAction
 
   "A RubyAction" should "evaluate ruby" in {
     val result = evaluate("1 + 1")
@@ -24,5 +22,4 @@ class RubyActionSpec extends FlatSpec with Matchers {
     evaluate("a") should be(SuccessResponse("1"))
   }
 
-  private def evaluate(message: String): Response = Await.result(ruby.evaluate(message), 10.seconds)
 }

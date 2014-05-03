@@ -1,14 +1,11 @@
 package actions
 
 import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.matchers.ShouldMatchers
-import response.{Response, SuccessResponse}
-import scala.concurrent.Await
-import scala.concurrent.duration._
+import response.SuccessResponse
 
-class PythonActionSpec extends FlatSpec with Matchers {
+class PythonActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val python = new PythonAction
+  val action = new PythonAction
 
   "A PythonAction" should "evaluate python" in {
     val result = evaluate("1 + 1")
@@ -26,5 +23,4 @@ class PythonActionSpec extends FlatSpec with Matchers {
     evaluate("a") should be(SuccessResponse("1"))
   }
 
-  private def evaluate(message: String): Response = Await.result(python.evaluate(message), 10.seconds)
 }

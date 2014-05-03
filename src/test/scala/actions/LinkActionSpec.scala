@@ -1,14 +1,12 @@
 package actions
 
-import scala.concurrent._
-import scala.concurrent.duration._
 import org.scalatest.{Matchers, FlatSpec}
-import response.{NoResponse, Response, SuccessResponse}
+import response.{NoResponse, SuccessResponse}
 
 
-class LinkActionSpec extends FlatSpec with Matchers {
+class LinkActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val link = new LinkAction
+  val action = new LinkAction
 
   "A LinkAction" should "parse a link and return the title (Youtube)" in {
     evaluate("https://www.youtube.com/watch?v=2Z4m4lnjxkY") should
@@ -27,5 +25,4 @@ class LinkActionSpec extends FlatSpec with Matchers {
     evaluate("http://i.imgur.com/sXVYDuCh.jpg") should be(NoResponse)
   }
 
-  private def evaluate(message: String): Response = Await.result(link.evaluate(message), 10.seconds)
 }

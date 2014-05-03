@@ -1,13 +1,11 @@
 package actions
 
 import org.scalatest._
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import response.{Response, SuccessResponse}
+import response.SuccessResponse
 
-class JsActionSpec extends FlatSpec with Matchers {
+class JsActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val js = new JsAction
+  val action = new JsAction
 
   "A JsAction" should "evaluate JavaScript" in {
     val result = evaluate("1 + 1")
@@ -24,5 +22,4 @@ class JsActionSpec extends FlatSpec with Matchers {
     evaluate("a") should be(SuccessResponse("1"))
   }
 
-  private def evaluate(message: String): Response = Await.result(js.evaluate(message), 10.seconds)
 }
