@@ -18,4 +18,7 @@ grant {
     permission java.security.SecurityPermission "getProperty.ssl.KeyManagerFactory.algorithm";
     permission java.security.SecurityPermission "getProperty.ssl.TrustManagerFactory.algorithm";
 
+   // Scala
+   permission java.lang.RuntimePermission "getenv.*";
+
 };

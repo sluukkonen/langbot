@@ -12,5 +12,9 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.2.0",
   "net.databinder.dispatch" %% "dispatch-core" % "0.11.0",
   "org.jsoup" % "jsoup" % "1.7.3",
+  "org.scala-lang" % "scala-compiler" % "2.11.0",
+  "org.scala-lang" % "scala-reflect" % "2.11.0",
   "org.scalatest" % "scalatest_2.11" % "2.1.5" % "test"
 )
+
+fork in test := true
