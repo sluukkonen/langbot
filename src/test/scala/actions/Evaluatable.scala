@@ -5,7 +5,7 @@ import scala.concurrent.duration._
 
 trait Evaluatable {
   val action: Action
-  val timeout = 2.seconds
+  val timeout = 5.seconds
 
   protected def evaluate(message: String) = Await.result(action.evaluate(message), timeout)
 }
