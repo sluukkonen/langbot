@@ -5,7 +5,7 @@ import response.SuccessResponse
 
 class ClojureActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val action = new ClojureAction
+  override val action = new ClojureAction
 
   "A ClojureAction" should "evaluate Clojure" in {
     val result = evaluate("(+ 1 1)")

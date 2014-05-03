@@ -5,7 +5,7 @@ import response.SuccessResponse
 
 class JsActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val action = new JsAction
+  override val action = new JsAction
 
   "A JsAction" should "evaluate JavaScript" in {
     val result = evaluate("1 + 1")

@@ -5,7 +5,7 @@ import response.SuccessResponse
 
 class RubyActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val action = new RubyAction
+  override val action = new RubyAction
 
   "A RubyAction" should "evaluate ruby" in {
     val result = evaluate("1 + 1")

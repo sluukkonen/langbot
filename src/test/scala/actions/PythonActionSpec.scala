@@ -5,7 +5,7 @@ import response.SuccessResponse
 
 class PythonActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val action = new PythonAction
+  override val action = new PythonAction
 
   "A PythonAction" should "evaluate python" in {
     val result = evaluate("1 + 1")

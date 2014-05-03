@@ -6,7 +6,7 @@ import response.{NoResponse, SuccessResponse}
 
 class LinkActionSpec extends FlatSpec with Matchers with Evaluatable {
 
-  val action = new LinkAction
+  override val action = new LinkAction
 
   "A LinkAction" should "parse a link and return the title (Youtube)" in {
     evaluate("https://www.youtube.com/watch?v=2Z4m4lnjxkY") should
