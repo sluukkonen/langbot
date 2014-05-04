@@ -22,7 +22,7 @@ class ScalaAction extends Action with Resettable {
         val (_, output) = resetting(outputStream)(Console.withOut(consoleOut)(scala.interpret(message)))
         SuccessResponse(output)
       } catch {
-        case e: Exception => ErrorResponse(e.getMessage)
+        case e: Exception => ErrorResponse(e.toString)
       }
     }
   }
