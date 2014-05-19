@@ -3,10 +3,12 @@ package actions
 import org.scalatest.{Matchers, FlatSpec}
 import response.{ErrorResponse, SuccessResponse}
 import scala.io.Source
+import scala.concurrent.duration._
 
 class BrainFuckActionSpec extends FlatSpec with Matchers with Evaluatable {
 
   override val action = new BrainFuckAction
+  override val timeout = 20.seconds
 
   "A BrainFuckAction" should "evaluate Brainfuck" in {
     evaluate(loadProgram("hello")) should be(SuccessResponse("Hello World!\n"))
