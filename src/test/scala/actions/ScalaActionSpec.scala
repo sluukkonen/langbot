@@ -1,9 +1,10 @@
 
 package actions
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{Ignore, FlatSpec, Matchers}
 import response.{ErrorResponse, SuccessResponse}
 
+@Ignore
 class ScalaActionSpec extends FlatSpec with Matchers with Evaluatable {
 
   override val action = new ScalaAction

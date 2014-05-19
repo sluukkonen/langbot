@@ -4,7 +4,6 @@ import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.tools.nsc.interpreter.IMain
 import response.{ErrorResponse, SuccessResponse, Response}
-import javax.script.ScriptEngineManager
 import java.io.{PrintStream, ByteArrayOutputStream}
 
 class ScalaAction extends Action with Resettable {
@@ -26,5 +25,6 @@ class ScalaAction extends Action with Resettable {
       }
     }
   }
+
   private def toStringOrUnit(result: AnyRef): String = Option(result).fold("null")(_.toString)
 }
