@@ -1,9 +1,15 @@
-import org.jibble.pircbot.PircBot
 import actions._
-import response.{NoResponse, ErrorResponse, SuccessResponse, Response}
-import scala.concurrent.ExecutionContext.Implicits.global
+import akka.actor.ActorSystem
+import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
+import response.{ErrorResponse, NoResponse, Response, SuccessResponse}
+import slack.rtm.SlackRtmClient
 
-class LangBot(nickName: String, server: String, channels: Seq[String]) extends PircBot {
+class LangBot(slackApiKey: String) {
+
+  implicit val system = ActorSystem("slack")
+  implicit val ec = system.dispatcher
+
+  val client = new SlackRtmClient(slackApiKey)
 
   def makePattern(prefix: String) = ("""^\.""" + prefix + """\s(.*)""").r
 
@@ -22,35 +28,21 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   val scalaPattern = makePattern("scala")
   val resetPattern = """^\.reset.*""".r
 
-  setName(nickName)
-  setVerbose(true)
-  setEncoding("UTF-8")
-
-  def connect(): Unit = {
-    connect(server)
-    channels foreach joinChannel
-  }
-
-  override def onDisconnect(): Unit = while (true) {
-    try {
-      connect()
-      return
-    } catch {
-      case e: Exception =>
-        Thread.sleep(30000)
+  client onMessage { message =>
+    unescapeHtml4(message.text) match {
+      case rubyPattern(msg) => evaluate(ruby, msg, message.channel)
+      case jsPattern(msg) => evaluate(js, msg, message.channel)
+      case pythonPattern(msg) => evaluate(python, msg, message.channel)
+      case clojurePattern(msg) => evaluate(clojure, msg, message.channel)
+      case brainfuckPattern(msg) => evaluate(brainfuck, msg, message.channel)
+      case scalaPattern(msg) => evaluate(scala, msg, message.channel)
+      case resetPattern() => reset(); sendMessage(message.channel, "=> Ready!")
+      case _ => // Pass
     }
   }
 
-  override def onMessage(channel: String, sender: String, login: String, host: String,
-                         message: String) = message match {
-    case rubyPattern(msg)      => evaluate(ruby, msg, channel)
-    case jsPattern(msg)        => evaluate(js, msg, channel)
-    case pythonPattern(msg)    => evaluate(python, msg, channel)
-    case clojurePattern(msg)   => evaluate(clojure, msg, channel)
-    case brainfuckPattern(msg) => evaluate(brainfuck, msg, channel)
-    case scalaPattern(msg)    =>  evaluate(scala, msg, channel)
-    case resetPattern()        => reset(); sendMessage(channel, "=> Ready!")
-    case _                     => println("No match")
+  private def sendMessage(channel: String, message: String) = {
+    client.sendMessage(channel, message)
   }
 
   private def evaluate(action: Action, message: String, channel: String) =
@@ -59,10 +51,10 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   private def sendResponse(channel: String, response: Response) = response match {
     case SuccessResponse(result, output) =>
       sendFilteredResponse(channel, output)
-        sendFilteredResponse(channel, s"⇒ $result")
-    case ErrorResponse(message)          =>
+      sendFilteredResponse(channel, s"⇒ $result")
+    case ErrorResponse(message) =>
       sendFilteredResponse(channel, message)
-    case NoResponse                      => // Pass
+    case NoResponse => // Pass
   }
 
   private def sendFilteredResponse(channel: String, response: String) =

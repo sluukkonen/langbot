@@ -1,6 +1,6 @@
 # Langbot [![Build Status](https://travis-ci.org/sluukkonen/langbot.png?branch=master)](https://travis-ci.org/sluukkonen/langbot)
 
-A small IRC bot for (mainly) running code in various programming languages. Written in Scala.
+A small Slack bot for running code in various programming languages. Written in Scala.
 
 ## Commands
 
@@ -17,5 +17,5 @@ Edit the configuration file at [src/main/resources/application.conf](src/main/re
 
 ```
 $ sbt assembly
-$ java -Djava.security.manager -Djava.security.policy=langbot.policy -jar target/scala-2.10/langbot-assembly-1.0.jar
+$ java -Djava.security.manager -Djava.security.policy=langbot.policy -jar target/scala-2.11/langbot-assembly-1.0.jar
 ```
