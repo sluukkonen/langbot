@@ -13,8 +13,6 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   var clojure = new ClojureAction
   var scala = new ScalaAction
   val brainfuck = new BrainFuckAction
-  val google = new GoogleAction
-  val link = new LinkAction
 
   val rubyPattern = makePattern("rb")
   val jsPattern = makePattern("js")
@@ -22,8 +20,6 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
   val clojurePattern = makePattern("clj")
   val brainfuckPattern = makePattern("bf")
   val scalaPattern = makePattern("scala")
-  val googlePattern = makePattern("google")
-  val linkPattern = """\b(https?://[^ ]*)""".r.unanchored
   val resetPattern = """^\.reset.*""".r
 
   setName(nickName)
@@ -52,9 +48,7 @@ class LangBot(nickName: String, server: String, channels: Seq[String]) extends P
     case pythonPattern(msg)    => evaluate(python, msg, channel)
     case clojurePattern(msg)   => evaluate(clojure, msg, channel)
     case brainfuckPattern(msg) => evaluate(brainfuck, msg, channel)
-    case googlePattern(msg)    => evaluate(google, msg, channel)
     case scalaPattern(msg)    =>  evaluate(scala, msg, channel)
-    case linkPattern(url)      => evaluate(link, url, channel)
     case resetPattern()        => reset(); sendMessage(channel, "=> Ready!")
     case _                     => println("No match")
   }
