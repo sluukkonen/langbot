@@ -1,7 +1,7 @@
 
 package actions
 
-import org.scalatest.{Ignore, FlatSpec, Matchers}
+import org.scalatest.{FlatSpec, Ignore, Matchers}
 import response.{ErrorResponse, SuccessResponse}
 
 @Ignore
@@ -23,6 +23,10 @@ class ScalaActionSpec extends FlatSpec with Matchers with Evaluatable {
   it should "remember state between invocations" in {
     evaluate("val a = 1")
     evaluate("a") should be(SuccessResponse(s"res2: Int = 1${newline}"))
+  }
+
+  it should "return an error message" in {
+    evaluate("foo") should be(ErrorResponse("asdf"))
   }
 
 }

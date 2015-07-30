@@ -1,7 +1,7 @@
 package actions
 
 import org.scalatest._
-import response.SuccessResponse
+import response.{ErrorResponse, SuccessResponse}
 
 class RubyActionSpec extends FlatSpec with Matchers with Evaluatable {
 
@@ -24,6 +24,10 @@ class RubyActionSpec extends FlatSpec with Matchers with Evaluatable {
 
   it should "use Ruby 2.2.2" in {
     evaluate("RUBY_VERSION") should be(SuccessResponse("\"2.2.2\""))
+  }
+
+  it should "return error messages" in {
+    evaluate("foo") should be(ErrorResponse("(NameError) undefined local variable or method `foo' for main:Object"))
   }
 
 }

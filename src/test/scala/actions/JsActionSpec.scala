@@ -1,7 +1,7 @@
 package actions
 
 import org.scalatest._
-import response.SuccessResponse
+import response.{ErrorResponse, SuccessResponse}
 
 class JsActionSpec extends FlatSpec with Matchers with Evaluatable {
 
@@ -20,6 +20,10 @@ class JsActionSpec extends FlatSpec with Matchers with Evaluatable {
   it should "keep state between invocations" in {
     evaluate("a = 1")
     evaluate("a") should be(SuccessResponse("1"))
+  }
+
+  it should "return error messages" in {
+    evaluate("foo") should be(ErrorResponse("ReferenceError: \"foo\" is not defined in <eval> at line number 1"))
   }
 
 }

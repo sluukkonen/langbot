@@ -1,7 +1,7 @@
 package actions
 
 import org.scalatest.{FlatSpec, Matchers}
-import response.SuccessResponse
+import response.{ErrorResponse, SuccessResponse}
 
 class ClojureActionSpec extends FlatSpec with Matchers with Evaluatable {
 
@@ -28,6 +28,10 @@ class ClojureActionSpec extends FlatSpec with Matchers with Evaluatable {
 
   it should "use Clojure 1.7.0" in {
     evaluate("(clojure-version)") should be(SuccessResponse("\"1.7.0\""))
+  }
+
+  it should "return error messages" in {
+    evaluate("foo") should be(ErrorResponse("java.lang.RuntimeException: Unable to resolve symbol: foo in this context, compiling:(null:0:0)"))
   }
 
 }
