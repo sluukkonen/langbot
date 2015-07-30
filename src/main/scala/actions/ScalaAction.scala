@@ -1,10 +1,12 @@
 package actions
 
-import scala.concurrent._
+import java.io.{ByteArrayOutputStream, PrintStream}
+
+import response.Response
+
 import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent._
 import scala.tools.nsc.interpreter.IMain
-import response.{ErrorResponse, SuccessResponse, Response}
-import java.io.{PrintStream, ByteArrayOutputStream}
 
 class ScalaAction extends Action with Resettable {
 
@@ -16,15 +18,12 @@ class ScalaAction extends Action with Resettable {
 
   override def evaluate(message: String): Future[Response] = Future {
     blocking {
-      try {
+      Response.create {
         // The interpreter doesn't return a useful return value, it just prints stuff to Console.out
         val (_, output) = resetting(outputStream)(Console.withOut(consoleOut)(scala.interpret(message)))
-        SuccessResponse(output)
-      } catch {
-        case e: Exception => ErrorResponse(e.toString)
+        (output, "")
       }
     }
   }
 
-  private def toStringOrUnit(result: AnyRef): String = Option(result).fold("null")(_.toString)
 }

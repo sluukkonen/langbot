@@ -1,10 +1,12 @@
 package actions
 
-import response.{Response, ErrorResponse, SuccessResponse}
-import scala.concurrent._
+import java.io.{ByteArrayOutputStream, PrintStream}
+
 import org.python.util.PythonInterpreter
-import java.io.{PrintStream, ByteArrayOutputStream}
+import response.Response
+
 import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent._
 
 class PythonAction extends Action with Resettable {
 
@@ -19,11 +21,9 @@ class PythonAction extends Action with Resettable {
   def evaluate(message: String): Future[Response] = {
     Future {
       blocking {
-        try {
+        Response.create {
           val (result, output) = resetting(outputStream)(python.eval(python.compile(message)))
-          SuccessResponse(result.toString, output)
-        } catch {
-          case e: Exception => ErrorResponse(e.toString)
+          (result.toString, output)
         }
       }
     }

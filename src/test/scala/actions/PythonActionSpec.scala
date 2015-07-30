@@ -1,6 +1,6 @@
 package actions
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import response.SuccessResponse
 
 class PythonActionSpec extends FlatSpec with Matchers with Evaluatable {
@@ -21,6 +21,11 @@ class PythonActionSpec extends FlatSpec with Matchers with Evaluatable {
   it should "keep state between invocations" in {
     evaluate("a = 1")
     evaluate("a") should be(SuccessResponse("1"))
+  }
+
+  it should "use Python 2.7.0" in {
+    evaluate("import sys")
+    evaluate("sys.version_info") should be(SuccessResponse("(2, 7, 0, 'final', 0)"))
   }
 
 }

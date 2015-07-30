@@ -1,10 +1,12 @@
 package actions
 
-import scala.concurrent._
-import java.io.{PrintWriter, ByteArrayOutputStream}
-import response.{ErrorResponse, SuccessResponse}
-import scala.concurrent.ExecutionContext.Implicits._
+import java.io.{ByteArrayOutputStream, PrintWriter}
 import javax.script.ScriptEngineManager
+
+import response.Response
+
+import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent._
 
 class JsAction extends Action with Resettable {
 
@@ -19,11 +21,9 @@ class JsAction extends Action with Resettable {
   override def evaluate(message: String) = {
     Future {
       blocking {
-        try {
+        Response.create {
           val (result, output) = resettingAndFlushing(outputStream, writer)(engine.eval(message))
-          SuccessResponse(toStringOrUndefined(result), output)
-        } catch {
-          case e: Exception => ErrorResponse(e.getMessage)
+          (toStringOrUndefined(result), output)
         }
       }
     }

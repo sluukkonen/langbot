@@ -22,4 +22,8 @@ class RubyActionSpec extends FlatSpec with Matchers with Evaluatable {
     evaluate("a") should be(SuccessResponse("1"))
   }
 
+  it should "use Ruby 2.2.2" in {
+    evaluate("RUBY_VERSION") should be(SuccessResponse("\"2.2.2\""))
+  }
+
 }

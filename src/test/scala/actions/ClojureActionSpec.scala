@@ -1,6 +1,6 @@
 package actions
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import response.SuccessResponse
 
 class ClojureActionSpec extends FlatSpec with Matchers with Evaluatable {
@@ -24,6 +24,10 @@ class ClojureActionSpec extends FlatSpec with Matchers with Evaluatable {
 
   it should "evaluate stuff in the user namespace" in {
     evaluate("(defn b [] 1)") should be(SuccessResponse("#'user/b"))
+  }
+
+  it should "use Clojure 1.7.0" in {
+    evaluate("(clojure-version)") should be(SuccessResponse("\"1.7.0\""))
   }
 
 }
