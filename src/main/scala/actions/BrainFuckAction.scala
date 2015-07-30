@@ -1,21 +1,21 @@
 package actions
 
-import scala.concurrent._
-import scala.concurrent.ExecutionContext.Implicits.global
-import response.{ErrorResponse, SuccessResponse, Response}
-import scala.collection.mutable
+import response.{Response, SuccessResponse}
+
 import scala.annotation.tailrec
+import scala.collection.mutable
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
 
 class BrainFuckAction extends Action {
 
   def evaluate(program: String): Future[Response] = Future {
-
     val tape = new Array[Int](30000)
     var ip, dp = 0
     val jumpTable = new mutable.HashMap[Int, Int]()
     val output = new StringBuilder
 
-    try {
+    Response.create {
       while (ip < program.length) {
         program.charAt(ip) match {
           case '>' => dp += 1
@@ -29,10 +29,9 @@ class BrainFuckAction extends Action {
         }
         ip += 1
       }
-      SuccessResponse(output.mkString)
-    } catch {
-      case e: Exception => ErrorResponse(e.getMessage)
+      (output.mkString, "")
     }
+    SuccessResponse(output.mkString)
   }
 
   private def jumpForward(program: String, ip: Int): Int = jumpForward(program, ip + 1, 1)
