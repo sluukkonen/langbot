@@ -23,9 +23,9 @@ class PythonActionSpec extends FlatSpec with Matchers with Evaluatable {
     evaluate("a") should be(SuccessResponse("1"))
   }
 
-  it should "use Python 2.7.0" in {
+  it should "use Python 2.5.3" in {
     evaluate("import sys")
-    evaluate("sys.version_info") should be(SuccessResponse("(2, 7, 0, 'final', 0)"))
+    evaluate("sys.version_info") should be(SuccessResponse("(2, 5, 3, 'final', 0)"))
   }
 
 }

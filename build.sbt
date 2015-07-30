@@ -6,7 +6,7 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   "org.jruby" % "jruby-complete" % "9.0.0.0",
-  "org.python" % "jython-standalone" % "2.7.0",
+  "org.python" % "jython" % "2.5.3",
   "org.clojure" % "clojure" % "1.7.0",
   "com.typesafe" % "config" % "1.3.0",
   "org.scala-lang" % "scala-compiler" % "2.11.7",
