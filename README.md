@@ -4,12 +4,14 @@ A small Slack bot for running code in various programming languages. Written in 
 
 ## Commands
 
-* `.rb ...`  run Ruby code (via JRuby)
-* `.py ...`  run Python code (via Jython)
-* `.js ...`  run JavaScript code (via Rhino)
-* `.clj ...` run Clojure code
-* `.bf ...`  run Brainfuck code
-* `.reset`   reset the language interpreters
+* `.rb ...`    run Ruby code (via JRuby)
+* `.py ...`    run Python code (via Jython)
+* `.js ...`    run JavaScript code (via Rhino)
+* `.clj ...`   run Clojure code
+* `.scala ...` run Scala code
+* `.scm ...`   run Scheme code (via JScheme)
+* `.bf ...`    run Brainfuck code
+* `.reset`     reset the language interpreters
 
 ## Running it
 

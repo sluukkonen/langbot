@@ -18,6 +18,7 @@ class LangBot(slackApiKey: String) {
   var python = new PythonAction
   var clojure = new ClojureAction
   var scala = new ScalaAction
+  var scheme = new SchemeAction
   val brainfuck = new BrainFuckAction
 
   val rubyPattern = makePattern("rb")
@@ -25,6 +26,7 @@ class LangBot(slackApiKey: String) {
   val pythonPattern = makePattern("py")
   val clojurePattern = makePattern("clj")
   val brainfuckPattern = makePattern("bf")
+  val schemePattern = makePattern("scm")
   val scalaPattern = makePattern("scala")
   val resetPattern = """^\.reset.*""".r
 
@@ -36,6 +38,7 @@ class LangBot(slackApiKey: String) {
       case clojurePattern(msg) => evaluate(clojure, msg, message.channel)
       case brainfuckPattern(msg) => evaluate(brainfuck, msg, message.channel)
       case scalaPattern(msg) => evaluate(scala, msg, message.channel)
+      case schemePattern(msg) => evaluate(scheme, msg, message.channel)
       case resetPattern() => reset(); sendMessage(message.channel, "=> Ready!")
       case _ => // Pass
     }
@@ -68,6 +71,7 @@ class LangBot(slackApiKey: String) {
     python = new PythonAction
     clojure = new ClojureAction
     scala = new ScalaAction
+    scheme = new SchemeAction
   }
 
 }
